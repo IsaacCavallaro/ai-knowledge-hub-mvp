@@ -1,0 +1,26 @@
+---
+import Base from '../layouts/Base.astro';
+import Search from '../components/Search.astro';
+
+const metadata = await import('../content/_metadata.json');
+const pages = metadata.default.pages;
+---
+<Base title="Knowledge Hub" description="Your AI-Powered Knowledge Base">
+  <section class="text-center py-12 bg-indigo-100 dark:bg-indigo-900 rounded-lg mb-8">
+    <h1 class="text-4xl font-bold mb-4">Welcome to the Knowledge Hub</h1>
+    <p class="text-lg mb-6">Explore our comprehensive collection of knowledge from Notion.</p>
+    <Search />  <!-- Integrated search here for prominence -->
+  </section>
+  <h2 class="text-3xl font-semibold mb-6">All Knowledge Pages</h2>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    {pages.map(page => (
+      <a href={`/pages/${page.slug}`} class="block bg-white dark:bg-gray-800 rounded-lg shadow-lg hover:shadow-xl transition-shadow overflow-hidden">
+        <div class="p-6">
+          <h3 class="text-xl font-bold mb-2">{page.title}</h3>
+          <p class="text-gray-600 dark:text-gray-300">{page.description}</p>
+        </div>
+      </a>
+    ))}
+  </div>
+  {pages.length === 0 && <p class="text-center text-gray-500">No pages found. Run `npm run extract` to pull from Notion.</p>}
+</Base>

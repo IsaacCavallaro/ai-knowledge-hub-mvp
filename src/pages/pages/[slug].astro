@@ -1,0 +1,24 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection, getEntryBySlug } from 'astro:content';
+
+export async function getStaticPaths() {
+  const pages = await getCollection('pages');
+  return pages.map((page) => ({
+    params: { slug: page.slug },
+    props: { page },
+  }));
+}
+
+const { slug } = Astro.params;
+const page = await getEntryBySlug('pages', slug);
+
+if (!page) Astro.redirect('/404');
+const { Content } = await page.render();
+---
+<Base title={page.data.title} description={page.data.description}>
+  <article class="prose dark:prose-invert mx-auto">
+    <h1>{page.data.title}</h1>
+    <Content />
+  </article>
+</Base>

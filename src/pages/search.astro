@@ -1,0 +1,74 @@
+---
+import Fuse from 'fuse.js';
+
+const metadata = await import('../content/_metadata.json');
+const pages = metadata.default.pages;
+
+const fuse = new Fuse(pages, {
+  keys: ['title', 'excerpt'],
+  threshold: 0.3,
+});
+---
+<div class="max-w-2xl mx-auto">
+  <input
+    type="text"
+    id="searchInput"
+    placeholder="Search knowledge..."
+    class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+  />
+  <div id="searchResults" class="mt-4 grid grid-cols-1 gap-4"></div>
+</div>
+
+<script>
+  import Fuse from 'fuse.js';
+
+  // Get pages data from a global variable or fetch it
+  const getPagesData = async () => {
+    try {
+      const response = await fetch('/_metadata.json');
+      const data = await response.json();
+      return data.pages;
+    } catch (error) {
+      console.error('Error loading pages data:', error);
+      return [];
+    }
+  };
+
+  let fuse = null;
+
+  const initSearch = async () => {
+    const pages = await getPagesData();
+    fuse = new Fuse(pages, { keys: ['title', 'excerpt'], threshold: 0.3 });
+  };
+
+  // Initialize search when DOM is ready
+  document.addEventListener('DOMContentLoaded', initSearch);
+
+  const searchInput = document.getElementById('searchInput');
+  const searchResults = document.getElementById('searchResults');
+
+  searchInput.addEventListener('input', (e) => {
+    const query = e.target.value;
+    searchResults.innerHTML = '';
+
+    if (!fuse) {
+      console.log('Search not initialized yet');
+      return;
+    }
+
+    if (!query) return;
+
+    const results = fuse.search(query);
+    results.forEach(result => {
+      const item = result.item;
+      const card = document.createElement('a');
+      card.href = `/pages/${item.slug}`;
+      card.className = 'block bg-white dark:bg-gray-800 rounded-lg shadow p-4 hover:shadow-md transition';
+      card.innerHTML = `
+        <h4 class="font-bold">${item.title}</h4>
+        <p class="text-sm text-gray-600 dark:text-gray-300">${item.excerpt}</p>
+      `;
+      searchResults.appendChild(card);
+    });
+  });
+</script>

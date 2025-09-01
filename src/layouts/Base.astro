@@ -1,0 +1,50 @@
+---
+export interface Props {
+  title: string;
+  description?: string;
+}
+const { title, description = "Simple Knowledge Hub" } = Astro.props;
+---
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet" />
+  </head>
+  <body class="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 text-gray-900 dark:text-gray-100 font-inter min-h-screen">
+    <header class="bg-white dark:bg-gray-800 shadow-md sticky top-0 z-10">
+      <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+        <a href="/" class="text-2xl font-bold text-indigo-600 dark:text-indigo-400">Knowledge Hub</a>
+        <div class="space-x-4">
+          <a href="/" class="hover:text-indigo-600 transition">Home</a>
+          <a href="/search" class="hover:text-indigo-600 transition">Search</a>
+        </div>
+      </nav>
+    </header>
+    <main class="container mx-auto px-6 py-8">
+      <slot />
+    </main>
+    <footer class="bg-white dark:bg-gray-800 py-4 mt-auto">
+      <div class="container mx-auto px-6 text-center text-sm text-gray-500 dark:text-gray-400">
+        © 2025 Knowledge Hub. Built with Astro & Tailwind.
+      </div>
+    </footer>
+    <script>
+      // Simple dark mode toggle (optional for MVP)
+      if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    </script>
+  </body>
+</html>
+<style is:global>
+  body { font-family: 'Inter', sans-serif; }
+</style>
