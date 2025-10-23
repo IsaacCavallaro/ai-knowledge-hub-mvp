@@ -1,8 +1,8 @@
-# AI Knowledge Hub MVP
+# AI Knowledge Hub POC
 
 > **🚧 Experimental Learning Project** - Simple tinkering with Cline and Notion MCP
 
-This is a **minimal viable product (MVP)** built for experimentation and learning. The website is intentionally simple and not meant to be fancy - it's just for tinkering and exploring AI-assisted development workflows.
+This is a **POC** built for experimentation and learning. The website is intentionally simple and not meant to be fancy - it's just for tinkering and exploring AI-assisted development workflows.
 
 **Key Points:**
 
