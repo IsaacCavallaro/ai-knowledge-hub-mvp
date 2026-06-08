@@ -16,7 +16,7 @@
   "type": "module",
   "dependencies": {
     "@astrojs/tailwind": "^6.0.2",
-    "@modelcontextprotocol/sdk": "^1.17.4",
+    "@modelcontextprotocol/sdk": "^1.26.0",
     "@notionhq/client": "^4.0.2",
     "astro": "^5.18.2",
     "dotenv": "^17.2.1",
